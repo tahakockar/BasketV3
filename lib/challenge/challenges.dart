@@ -60,7 +60,6 @@ class _challengesPageState extends State<challengesPage> {
   Widget build(BuildContext context) {
     if (data != null) {
       return Scaffold(
-
           extendBody: true,
           key: scaffoldKey,
           backgroundColor: Color(0xFFECE9FF),
@@ -151,14 +150,7 @@ class _challengesPageState extends State<challengesPage> {
 
                                       /// Logo
                                       GestureDetector(
-                                        onTap: () {
-                                          Navigator.push (
-                                            context,
-                                            MaterialPageRoute (
-                                              builder: (BuildContext context) => LoginPage33(),
-                                            ),
-                                          );
-                                        },
+                                        onTap: () {  },
                                         child: Padding(
                                             padding: EdgeInsets.only(
                                                 left: 10,
