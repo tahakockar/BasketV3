@@ -1,0 +1,10 @@
+
+device_id login sayfası yerine mainde alınıp local databaseye kaydedilebilir
+tarih seçimi daha sağlıklı bir şekilde yapılabilir
+regexler yapılıcak
+hata mesajları oluşturulacak ve buglur düzenlenecek
+
+sifre ve kullanıcı adı yenileme
+
+
+username değiştirildiği zaman databasedeki username değişicek

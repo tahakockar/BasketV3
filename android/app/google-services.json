@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "231641648937",
+    "project_id": "baketv2-d2067",
+    "storage_bucket": "baketv2-d2067.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:231641648937:android:d50f3e6e3ec723178db138",
+        "android_client_info": {
+          "package_name": "com.example.basketv2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "231641648937-9ka4ifq77h7p82nr88gngu16j0ilctp5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwra5GZzfiixx5W_U_U-0LQG_kO6GgpCY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "231641648937-9ka4ifq77h7p82nr88gngu16j0ilctp5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
