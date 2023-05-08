@@ -107,8 +107,10 @@ class _editPageState extends State<editPage> {
 
     );
   }
+
+  Widget Hello(){
+    return Container(
+      color: Colors.white,
+    );
+  }
 }
-
-
-
-//jlkjklj
