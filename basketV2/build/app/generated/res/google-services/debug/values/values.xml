@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">231641648937-9ka4ifq77h7p82nr88gngu16j0ilctp5.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">231641648937</string>
+    <string name="google_api_key" translatable="false">AIzaSyDwra5GZzfiixx5W_U_U-0LQG_kO6GgpCY</string>
+    <string name="google_app_id" translatable="false">1:231641648937:android:d50f3e6e3ec723178db138</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDwra5GZzfiixx5W_U_U-0LQG_kO6GgpCY</string>
+    <string name="google_storage_bucket" translatable="false">baketv2-d2067.appspot.com</string>
+    <string name="project_id" translatable="false">baketv2-d2067</string>
+</resources>
