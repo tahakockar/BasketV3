@@ -29,7 +29,7 @@ class _myUserProfilPageState extends State<myUserProfilPage> {
 
   var snappingSheetController = SnappingSheetController();
   final ScrollController listViewController = ScrollController();
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  final scaffoldKey2 = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -51,143 +51,148 @@ class _myUserProfilPageState extends State<myUserProfilPage> {
   @override
   Widget build(BuildContext context) {
     if (user_info != null) {
-
       return Scaffold(
-          key: scaffoldKey,
+          key: scaffoldKey2,
           backgroundColor: Color(0xFFECE9FF),
-          appBar: PreferredSize(
-            preferredSize: Size.fromHeight(kToolbarHeight),
-            child: AppBar(
-              backgroundColor: _appBarColor,
-              elevation: 0,
-              title: Text(
-                "Hello",
-                style: TextStyle(color: Colors.black87),
-              ),
-              actions: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.push (
-                      context,
-                      MaterialPageRoute (
-                        builder: (BuildContext context) => const editPage(),
-                      ),
-                    );
-                  },
-                  icon: Icon(
-                    Icons.edit,
-                    color: Colors.black,
-                  ),
-                ),
-                IconButton(
-                  onPressed: () {
-                    Navigator.push (
-                      context,
-                      MaterialPageRoute (
-                        builder: (BuildContext context) => settingsPage(),
-                      ),
-                    );
-                  },
-                  icon: Icon(
-                    Icons.settings,
-                    color: Colors.black,
-                  ),
-                ),
-              ],
-            ),
+            body: SnappingSheet(
+
+  controller: snappingSheetController,
+  lockOverflowDrag: true,
+  snappingPositions: [
+    /// Sheet pozisyon
+    SnappingPosition.factor(
+      snappingCurve: Curves.easeInOutCubicEmphasized,
+      positionFactor: 0.0,
+      snappingDuration: Duration(milliseconds: 600),
+      grabbingContentOffset: GrabbingContentOffset.top,
+    ),
+    SnappingPosition.factor(
+      snappingCurve: Curves.easeInOutCubicEmphasized,
+      snappingDuration: Duration(milliseconds: 400),
+      positionFactor: 0.6,
+    ),
+    SnappingPosition.pixels(
+      snappingCurve: Curves.easeInOutCubicEmphasized,
+      grabbingContentOffset: GrabbingContentOffset.bottom,
+      snappingDuration: Duration(milliseconds: 80),
+      positionPixels: MediaQuery.of(context).size.height,
+    ),
+  ],
+
+
+
+  sheetBelow: sheetAbove(context:context, detail:detail?["challenge"], MyPageState:_myUserProfilPageState(), controller:snappingSheetController, listViewController:listViewController),
+  child: NestedScrollView(
+    headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+      return <Widget>[
+        SliverAppBar(
+          title: Text(
+            "Hello",
+            style: TextStyle(color: Colors.black87),
           ),
-          body: SnappingSheet(
-
-            controller: snappingSheetController,
-            lockOverflowDrag: true,
-            snappingPositions: [
-              /// Sheet pozisyon
-              SnappingPosition.factor(
-                snappingCurve: Curves.easeInOutCubicEmphasized,
-                positionFactor: 0.0,
-                snappingDuration: Duration(milliseconds: 600),
-                grabbingContentOffset: GrabbingContentOffset.top,
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.push (
+                  context,
+                  MaterialPageRoute (
+                    builder: (BuildContext context) => const editPage(),
+                  ),
+                );
+              },
+              icon: Icon(
+                Icons.edit,
+                color: Colors.black,
               ),
-              SnappingPosition.factor(
-                snappingCurve: Curves.easeInOutCubicEmphasized,
-                snappingDuration: Duration(milliseconds: 400),
-                positionFactor: 0.6,
+            ),
+            IconButton(
+              onPressed: () {
+                Navigator.push (
+                  context,
+                  MaterialPageRoute (
+                    builder: (BuildContext context) => settingsPage(),
+                  ),
+                );
+              },
+              icon: Icon(
+                Icons.settings,
+                color: Colors.black,
               ),
-              SnappingPosition.pixels(
-                snappingCurve: Curves.easeInOutCubicEmphasized,
-                grabbingContentOffset: GrabbingContentOffset.bottom,
-                snappingDuration: Duration(milliseconds: 80),
-                positionPixels: MediaQuery.of(context).size.height,
-              ),
-            ],
+            ),
+          ],
+          pinned: false,
+          floating: false,
+          forceElevated: innerBoxIsScrolled,
 
 
 
-            sheetBelow: sheetAbove(context:context, detail:detail?["challenge"], MyPageState:_myUserProfilPageState(), controller:snappingSheetController, listViewController:listViewController),
-            child: ScrollConfiguration(
-                behavior: MyBehavior(),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Container(
-                        child: Column(
-                          children: [
-                            GestureDetector(
-                              onTap: (){
-                                Navigator.push (
-                                  context,
-                                  MaterialPageRoute (
-                                    builder: (BuildContext context) => const editPage(),
-                                  ),
-                                );
-                              },
-                              child: Padding(
-                              padding: EdgeInsets.only(),
-                              child: Container(
-                                height: 150,
-                                width: 150,
-                                child: Card(
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(100),
-                                  ),
-                                  child:CircleAvatar(
-                                    backgroundImage:NetworkImage("${BASE_URL + user_info!.profile_image}", // No matter how big it is, it won't overflow
-                                    ),
-                                  ),
-                                  color: Colors.red,
-                                ),
-                              ),
-                            ),),
-                            Padding(
-                              padding: EdgeInsets.only(top: 20),
-                              child: Text(
-                                "${user_info!.first_name} ${user_info!.last_name}",
-                                style: TextStyle(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black87),
+        ),
+      ];
+},
+    body:  ScrollConfiguration(
+        behavior: MyBehavior(),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                child: Column(
+                  children: [
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push (
+                          context,
+                          MaterialPageRoute (
+                            builder: (BuildContext context) => const editPage(),
+                          ),
+                        );
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(),
+                        child: Container(
+                          height: 150,
+                          width: 150,
+                          child: Card(
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                            child:CircleAvatar(
+                              backgroundImage:NetworkImage("${BASE_URL + user_info!.profile_image}", // No matter how big it is, it won't overflow
                               ),
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 8, bottom: 30),
-                              child: Text(
-                                "@${user_info!.username}",
-                                style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.grey),
-                              ),
-                            ),
-                          ],
+                            color: Colors.red,
+                          ),
                         ),
+                      ),),
+                    Padding(
+                      padding: EdgeInsets.only(top: 20),
+                      child: Text(
+                        "${user_info!.first_name} ${user_info!.last_name}",
+                        style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black87),
                       ),
-                      Container(
-                          child: SingleChildScrollView(
-                              child: Column(
-                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 8, bottom: 30),
+                      child: Text(
+                        "@${user_info!.username}",
+                        style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.grey),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                  child: SingleChildScrollView(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
                             Flexible(
                                 child: ListView.builder(
 
@@ -207,9 +212,9 @@ class _myUserProfilPageState extends State<myUserProfilPage> {
                                               setState(() {
                                                 snappingSheetController
                                                     .snapToPosition(
-                                                        SnappingPosition.factor(
-                                                  positionFactor: 0,
-                                                ));
+                                                    SnappingPosition.factor(
+                                                      positionFactor: 0,
+                                                    ));
                                                 detail = {"time":"current", "challenge":current![index]};
                                               });
                                               await Future.delayed(
@@ -217,9 +222,9 @@ class _myUserProfilPageState extends State<myUserProfilPage> {
 
                                               snappingSheetController
                                                   .snapToPosition(
-                                                      SnappingPosition.factor(
-                                                positionFactor: 0.6,
-                                              ));
+                                                  SnappingPosition.factor(
+                                                    positionFactor: 0.6,
+                                                  ));
                                             },
                                             child: Card(
                                               elevation: 5,
@@ -227,7 +232,7 @@ class _myUserProfilPageState extends State<myUserProfilPage> {
                                                   0.0, 0.0, 0.0, 16.0),
                                               shape: RoundedRectangleBorder(
                                                 borderRadius:
-                                                    BorderRadius.circular(30),
+                                                BorderRadius.circular(30),
                                               ),
                                               color: Colors.white,
                                               child: Column(
@@ -236,13 +241,13 @@ class _myUserProfilPageState extends State<myUserProfilPage> {
                                                     padding: EdgeInsets.all(10),
                                                     child: Row(
                                                       mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
                                                       children: [
                                                         Padding(
                                                             padding:
-                                                                EdgeInsets.all(
-                                                                    0),
+                                                            EdgeInsets.all(
+                                                                0),
                                                             child: Text(
                                                               "Oynanıyor",
                                                               style: TextStyle(
@@ -252,12 +257,12 @@ class _myUserProfilPageState extends State<myUserProfilPage> {
                                                             )),
                                                         Padding(
                                                             padding:
-                                                                EdgeInsets.all(
-                                                                    0),
+                                                            EdgeInsets.all(
+                                                                0),
                                                             child: Row(
                                                               mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceAround,
+                                                              MainAxisAlignment
+                                                                  .spaceAround,
                                                               children: [
                                                                 Icon(
                                                                   Icons
@@ -268,10 +273,10 @@ class _myUserProfilPageState extends State<myUserProfilPage> {
                                                                 Padding(
                                                                   padding: EdgeInsets
                                                                       .only(
-                                                                          left:
-                                                                              8,
-                                                                          right:
-                                                                              8),
+                                                                      left:
+                                                                      8,
+                                                                      right:
+                                                                      8),
                                                                   child: Text(
                                                                     current![index].place.name,
                                                                     /* userdetail["historys"][index]
@@ -288,11 +293,11 @@ class _myUserProfilPageState extends State<myUserProfilPage> {
                                                         .place
                                                         .name,*/
                                                                     style:
-                                                                        TextStyle(
+                                                                    TextStyle(
                                                                       color: Color(
                                                                           0xFF525252),
                                                                       fontSize:
-                                                                          12,
+                                                                      12,
                                                                     ),
                                                                   ),
                                                                 )
@@ -306,20 +311,20 @@ class _myUserProfilPageState extends State<myUserProfilPage> {
                                                           top: 10),
                                                       child: Row(
                                                         mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
+                                                        MainAxisAlignment
+                                                            .center,
                                                         children: [
                                                           Padding(
                                                             padding:
-                                                                EdgeInsets.only(
-                                                                    right: 15),
+                                                            EdgeInsets.only(
+                                                                right: 15),
                                                             child: Text(
                                                               "36",
                                                               style: TextStyle(
                                                                 fontSize: 30,
                                                                 fontWeight:
-                                                                    FontWeight
-                                                                        .w700,
+                                                                FontWeight
+                                                                    .w700,
                                                                 color: Color(
                                                                     0xFF525252),
                                                               ),
@@ -327,15 +332,15 @@ class _myUserProfilPageState extends State<myUserProfilPage> {
                                                           ),
                                                           Padding(
                                                             padding:
-                                                                EdgeInsets.only(
-                                                                    left: 15),
+                                                            EdgeInsets.only(
+                                                                left: 15),
                                                             child: Text(
                                                               "36",
                                                               style: TextStyle(
                                                                 fontSize: 30,
                                                                 fontWeight:
-                                                                    FontWeight
-                                                                        .w700,
+                                                                FontWeight
+                                                                    .w700,
                                                                 color: Color(
                                                                     0xFF525252),
                                                               ),
@@ -348,20 +353,20 @@ class _myUserProfilPageState extends State<myUserProfilPage> {
                                                         bottom: 20, top: 5),
                                                     child: Row(
                                                       mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
+                                                      MainAxisAlignment
+                                                          .center,
                                                       children: [
                                                         Padding(
                                                             padding:
-                                                                EdgeInsets.only(
-                                                                    top: 10),
+                                                            EdgeInsets.only(
+                                                                top: 10),
                                                             child: Text(
                                                               "${current![index].gameSize.nof} vs ${current![index].gameSize.nof}",
                                                               style: TextStyle(
                                                                 fontSize: 20,
                                                                 fontWeight:
-                                                                    FontWeight
-                                                                        .w700,
+                                                                FontWeight
+                                                                    .w700,
                                                                 color: Color(
                                                                     0xFF525252),
                                                               ),
@@ -389,68 +394,68 @@ class _myUserProfilPageState extends State<myUserProfilPage> {
                                             left: 20,
                                             right: 20),
                                         child:GestureDetector(
-                                        onTap: () async {
-                                          setState(() {
-                                            snappingSheetController
-                                                .snapToPosition(
-                                                SnappingPosition.factor(
-                                                  positionFactor: 0,
-                                                ));
-                                            detail = {"type":"future", "challenge":future![index]};
-                                          });
-                                          await Future.delayed(
-                                              Duration(seconds: 1));
+                                            onTap: () async {
+                                              setState(() {
+                                                snappingSheetController
+                                                    .snapToPosition(
+                                                    SnappingPosition.factor(
+                                                      positionFactor: 0,
+                                                    ));
+                                                detail = {"type":"future", "challenge":future![index]};
+                                              });
+                                              await Future.delayed(
+                                                  Duration(seconds: 1));
 
-                                          snappingSheetController
-                                              .snapToPosition(
-                                              SnappingPosition.factor(
-                                                positionFactor: 0.6,
-                                              ));
-                                        },
-                                        child: Card(
-                                          elevation: 5,
-                                          margin: EdgeInsets.fromLTRB(
-                                              0.0, 0.0, 0.0, 16.0),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
+                                              snappingSheetController
+                                                  .snapToPosition(
+                                                  SnappingPosition.factor(
+                                                    positionFactor: 0.6,
+                                                  ));
+                                            },
+                                            child: Card(
+                                              elevation: 5,
+                                              margin: EdgeInsets.fromLTRB(
+                                                  0.0, 0.0, 0.0, 16.0),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
                                                 BorderRadius.circular(30),
-                                          ),
-                                          color: Colors.white,
-                                          child: Column(
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsets.all(10),
-                                                child: Row(
-                                                  mainAxisAlignment:
+                                              ),
+                                              color: Colors.white,
+                                              child: Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: EdgeInsets.all(10),
+                                                    child: Row(
+                                                      mainAxisAlignment:
                                                       MainAxisAlignment
                                                           .spaceBetween,
-                                                  children: [
-                                                    Padding(
-                                                      padding:
+                                                      children: [
+                                                        Padding(
+                                                          padding:
                                                           EdgeInsets.all(0),
-                                                      child: Text("Oynanıcak"),
-                                                    ),
-                                                    Padding(
-                                                        padding:
+                                                          child: Text("Oynanıcak"),
+                                                        ),
+                                                        Padding(
+                                                            padding:
                                                             EdgeInsets.all(0),
-                                                        child: Row(
-                                                          mainAxisAlignment:
+                                                            child: Row(
+                                                              mainAxisAlignment:
                                                               MainAxisAlignment
                                                                   .spaceAround,
-                                                          children: [
-                                                            Icon(
-                                                              Icons.location_on,
-                                                              color: Color(
-                                                                  0xFF525252),
-                                                            ),
-                                                            Padding(
-                                                              padding: EdgeInsets
-                                                                  .only(
+                                                              children: [
+                                                                Icon(
+                                                                  Icons.location_on,
+                                                                  color: Color(
+                                                                      0xFF525252),
+                                                                ),
+                                                                Padding(
+                                                                  padding: EdgeInsets
+                                                                      .only(
                                                                       left: 8,
                                                                       right: 8),
-                                                              child: Text(
-                                                                future![index].place.name,
-                                                                /* userdetail["historys"][index]
+                                                                  child: Text(
+                                                                    future![index].place.name,
+                                                                    /* userdetail["historys"][index]
                                                         .place
                                                         .name
                                                         .length >
@@ -463,86 +468,86 @@ class _myUserProfilPageState extends State<myUserProfilPage> {
                                                         : userdetail["historys"][index]
                                                         .place
                                                         .name,*/
-                                                                style:
+                                                                    style:
                                                                     TextStyle(
-                                                                  color: Color(
-                                                                      0xFF525252),
-                                                                  fontSize: 12,
-                                                                ),
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ))
-                                                  ],
-                                                ),
-                                              ),
-                                              Padding(
-                                                  padding:
+                                                                      color: Color(
+                                                                          0xFF525252),
+                                                                      fontSize: 12,
+                                                                    ),
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ))
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                      padding:
                                                       EdgeInsets.only(top: 10),
-                                                  child: Row(
-                                                    mainAxisAlignment:
+                                                      child: Row(
+                                                        mainAxisAlignment:
                                                         MainAxisAlignment
                                                             .center,
-                                                    children: [
-                                                      Padding(
-                                                        padding:
+                                                        children: [
+                                                          Padding(
+                                                            padding:
                                                             EdgeInsets.only(
                                                                 right: 15),
-                                                        child: Text(
-                                                          "36",
-                                                          style: TextStyle(
-                                                            fontSize: 30,
-                                                            fontWeight:
+                                                            child: Text(
+                                                              "36",
+                                                              style: TextStyle(
+                                                                fontSize: 30,
+                                                                fontWeight:
                                                                 FontWeight.w700,
-                                                            color: Color(
-                                                                0xFF525252),
+                                                                color: Color(
+                                                                    0xFF525252),
+                                                              ),
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding:
+                                                          Padding(
+                                                            padding:
                                                             EdgeInsets.only(
                                                                 left: 15),
-                                                        child: Text(
-                                                          "36",
-                                                          style: TextStyle(
-                                                            fontSize: 30,
-                                                            fontWeight:
+                                                            child: Text(
+                                                              "36",
+                                                              style: TextStyle(
+                                                                fontSize: 30,
+                                                                fontWeight:
                                                                 FontWeight.w700,
-                                                            color: Color(
-                                                                0xFF525252),
+                                                                color: Color(
+                                                                    0xFF525252),
+                                                              ),
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  )),
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    bottom: 20, top: 5),
-                                                child: Row(
-                                                  mainAxisAlignment:
+                                                        ],
+                                                      )),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        bottom: 20, top: 5),
+                                                    child: Row(
+                                                      mainAxisAlignment:
                                                       MainAxisAlignment.center,
-                                                  children: [
-                                                    Padding(
-                                                        padding:
+                                                      children: [
+                                                        Padding(
+                                                            padding:
                                                             EdgeInsets.only(
                                                                 top: 10),
-                                                        child: Text(
-                                                          "${future![index].gameSize.nof} Vs ${future![index].gameSize.nof}",
-                                                          style: TextStyle(
-                                                            fontSize: 20,
-                                                            fontWeight:
+                                                            child: Text(
+                                                              "${future![index].gameSize.nof} Vs ${future![index].gameSize.nof}",
+                                                              style: TextStyle(
+                                                                fontSize: 20,
+                                                                fontWeight:
                                                                 FontWeight.w700,
-                                                            color: Color(
-                                                                0xFF525252),
-                                                          ),
-                                                        ))
-                                                  ],
-                                                ),
+                                                                color: Color(
+                                                                    0xFF525252),
+                                                              ),
+                                                            ))
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                            ],
-                                          ),
-                                        )),
+                                            )),
                                       );
 
                                     })
@@ -555,74 +560,74 @@ class _myUserProfilPageState extends State<myUserProfilPage> {
                                     itemBuilder:
                                         (BuildContext context, int index) {
                                       return Padding(
-                                        padding: EdgeInsets.only(
-                                            top: 10,
-                                            bottom: 30,
-                                            left: 20,
-                                            right: 20),
-                                        child:GestureDetector(
-                                        onTap: ()async {
-                                          setState(() {
-                                            snappingSheetController
-                                                .snapToPosition(
-                                                SnappingPosition.factor(
-                                                  positionFactor: 0,
-                                                ));
-                                            detail = {"type":"past", "challenge":past![index]};
-                                          });
-                                          await Future.delayed(
-                                              Duration(seconds: 1));
+                                          padding: EdgeInsets.only(
+                                              top: 10,
+                                              bottom: 30,
+                                              left: 20,
+                                              right: 20),
+                                          child:GestureDetector(
+                                            onTap: ()async {
+                                              setState(() {
+                                                snappingSheetController
+                                                    .snapToPosition(
+                                                    SnappingPosition.factor(
+                                                      positionFactor: 0,
+                                                    ));
+                                                detail = {"type":"past", "challenge":past![index]};
+                                              });
+                                              await Future.delayed(
+                                                  Duration(seconds: 1));
 
-                                          snappingSheetController
-                                              .snapToPosition(
-                                              SnappingPosition.factor(
-                                                positionFactor: 0.6,
-                                              ));
-                                        },
-                                        child: Card(
-                                          elevation: 5,
-                                          margin: EdgeInsets.fromLTRB(
-                                              0.0, 0.0, 0.0, 16.0),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
+                                              snappingSheetController
+                                                  .snapToPosition(
+                                                  SnappingPosition.factor(
+                                                    positionFactor: 0.6,
+                                                  ));
+                                            },
+                                            child: Card(
+                                              elevation: 5,
+                                              margin: EdgeInsets.fromLTRB(
+                                                  0.0, 0.0, 0.0, 16.0),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
                                                 BorderRadius.circular(30),
-                                          ),
-                                          color: Colors.white,
-                                          child: Column(
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsets.all(10),
-                                                child: Row(
-                                                  mainAxisAlignment:
+                                              ),
+                                              color: Colors.white,
+                                              child: Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: EdgeInsets.all(10),
+                                                    child: Row(
+                                                      mainAxisAlignment:
                                                       MainAxisAlignment
                                                           .spaceBetween,
-                                                  children: [
-                                                    Padding(
-                                                      padding:
+                                                      children: [
+                                                        Padding(
+                                                          padding:
                                                           EdgeInsets.all(0),
-                                                      child: Text("oynandı"),
-                                                    ),
-                                                    Padding(
-                                                        padding:
+                                                          child: Text("oynandı"),
+                                                        ),
+                                                        Padding(
+                                                            padding:
                                                             EdgeInsets.all(0),
-                                                        child: Row(
-                                                          mainAxisAlignment:
+                                                            child: Row(
+                                                              mainAxisAlignment:
                                                               MainAxisAlignment
                                                                   .spaceAround,
-                                                          children: [
-                                                            Icon(
-                                                              Icons.location_on,
-                                                              color: Color(
-                                                                  0xFF525252),
-                                                            ),
-                                                            Padding(
-                                                              padding: EdgeInsets
-                                                                  .only(
+                                                              children: [
+                                                                Icon(
+                                                                  Icons.location_on,
+                                                                  color: Color(
+                                                                      0xFF525252),
+                                                                ),
+                                                                Padding(
+                                                                  padding: EdgeInsets
+                                                                      .only(
                                                                       left: 8,
                                                                       right: 8),
-                                                              child: Text(
-                                                                past![index].place.name,
-                                                                /* userdetail["historys"][index]
+                                                                  child: Text(
+                                                                    past![index].place.name,
+                                                                    /* userdetail["historys"][index]
                                                         .place
                                                         .name
                                                         .length >
@@ -635,94 +640,98 @@ class _myUserProfilPageState extends State<myUserProfilPage> {
                                                         : userdetail["historys"][index]
                                                         .place
                                                         .name,*/
-                                                                style:
+                                                                    style:
                                                                     TextStyle(
-                                                                  color: Color(
-                                                                      0xFF525252),
-                                                                  fontSize: 12,
-                                                                ),
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ))
-                                                  ],
-                                                ),
-                                              ),
-                                              Padding(
-                                                  padding:
+                                                                      color: Color(
+                                                                          0xFF525252),
+                                                                      fontSize: 12,
+                                                                    ),
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ))
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                      padding:
                                                       EdgeInsets.only(top: 10),
-                                                  child: Row(
-                                                    mainAxisAlignment:
+                                                      child: Row(
+                                                        mainAxisAlignment:
                                                         MainAxisAlignment
                                                             .center,
-                                                    children: [
-                                                      Padding(
-                                                        padding:
+                                                        children: [
+                                                          Padding(
+                                                            padding:
                                                             EdgeInsets.only(
                                                                 right: 15),
-                                                        child: Text(
-                                                          "36",
-                                                          style: TextStyle(
-                                                            fontSize: 30,
-                                                            fontWeight:
+                                                            child: Text(
+                                                              "36",
+                                                              style: TextStyle(
+                                                                fontSize: 30,
+                                                                fontWeight:
                                                                 FontWeight.w700,
-                                                            color: Color(
-                                                                0xFF525252),
+                                                                color: Color(
+                                                                    0xFF525252),
+                                                              ),
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding:
+                                                          Padding(
+                                                            padding:
                                                             EdgeInsets.only(
                                                                 left: 15),
-                                                        child: Text(
-                                                          "36",
-                                                          style: TextStyle(
-                                                            fontSize: 30,
-                                                            fontWeight:
+                                                            child: Text(
+                                                              "36",
+                                                              style: TextStyle(
+                                                                fontSize: 30,
+                                                                fontWeight:
                                                                 FontWeight.w700,
-                                                            color: Color(
-                                                                0xFF525252),
+                                                                color: Color(
+                                                                    0xFF525252),
+                                                              ),
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  )),
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    bottom: 20, top: 5),
-                                                child: Row(
-                                                  mainAxisAlignment:
+                                                        ],
+                                                      )),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        bottom: 20, top: 5),
+                                                    child: Row(
+                                                      mainAxisAlignment:
                                                       MainAxisAlignment.center,
-                                                  children: [
-                                                    Padding(
-                                                        padding:
+                                                      children: [
+                                                        Padding(
+                                                            padding:
                                                             EdgeInsets.only(
                                                                 top: 10),
-                                                        child: Text(
-                                                          "${past![index].gameSize.nof} Vs ${past![index].gameSize.nof}",
-                                                          style: TextStyle(
-                                                            fontSize: 20,
-                                                            fontWeight:
+                                                            child: Text(
+                                                              "${past![index].gameSize.nof} Vs ${past![index].gameSize.nof}",
+                                                              style: TextStyle(
+                                                                fontSize: 20,
+                                                                fontWeight:
                                                                 FontWeight.w700,
-                                                            color: Color(
-                                                                0xFF525252),
-                                                          ),
-                                                        ))
-                                                  ],
-                                                ),
+                                                                color: Color(
+                                                                    0xFF525252),
+                                                              ),
+                                                            ))
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                            ],
-                                          ),
-                                        ),
-                                        )
+                                            ),
+                                          )
                                       );
                                     })),
                           ]))),
-                    ],
-                  ),
-                )),
-          )
+            ],
+          ),
+        )),)
+
+
+) ,
+
+
 
       );
     } else {
