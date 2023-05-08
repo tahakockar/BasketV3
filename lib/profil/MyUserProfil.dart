@@ -3,7 +3,7 @@ import 'package:basketv2/authentication/construction.dart';
 import 'package:basketv2/challenge/construction.dart';
 import 'package:basketv2/configuration/settings.dart';
 import 'package:basketv2/profil/api.dart';
-import 'package:basketv2/settings/settingsPage.dart';
+import 'package:basketv2/profil/settingsPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:snapping_sheet/snapping_sheet.dart';
