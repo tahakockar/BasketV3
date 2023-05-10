@@ -1,5 +1,5 @@
-import 'package:basketv2/settings/change%C4%B0nformationPage.dart';
-import 'package:basketv2/settings/accountInfo.dart';
+import 'package:basketv2/profil/change%C4%B0nformationPage.dart';
+import 'package:basketv2/profil/accountInfo.dart';
 import 'package:flutter/material.dart';
 
 
