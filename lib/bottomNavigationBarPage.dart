@@ -1,3 +1,4 @@
+import 'package:basketv2/ArGe.dart';
 import 'package:basketv2/profil/MyUserProfil.dart';
 import 'package:basketv2/profil/userProfilPage.dart';
 import 'package:basketv2/search/searchPage.dart';
@@ -113,7 +114,7 @@ class _bottomNavigationBarPageState extends State<bottomNavigationBarPage> {
                       margin: EdgeInsets.all(20).copyWith(top: 0, bottom: 0),
                     ),
                     ListTile(
-                      onTap: () {},
+                      onTap: () { },
                       leading: Icon(
                         Icons.sports,
                         size: 30,
@@ -181,7 +182,7 @@ class _bottomNavigationBarPageState extends State<bottomNavigationBarPage> {
 
                       icon: Icon(
                         Icons.sports_basketball_rounded,
-                        color: Colors.black,
+                        color: Colors.deepOrange,
                       ),
                       label: ""),
 

@@ -1,6 +1,6 @@
 import 'package:basketv2/authentication/construction.dart';
 import 'package:basketv2/profil/api.dart';
-import 'package:basketv2/profil/change%C4%B0nformationPage.dart';
+import 'package:basketv2/settings/change%C4%B0nformationPage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -81,6 +81,13 @@ class _passwordResetPageState extends State<passwordResetPage> {
                   ),
                 ),
 
+
+                  TextField(
+                    controller:
+                    TextEditingController(text: user_info!.number), // <-- SEE HERE
+                    decoration: InputDecoration(labelText: 'Enter Number'),
+
+                )
               ],
             )
         ),

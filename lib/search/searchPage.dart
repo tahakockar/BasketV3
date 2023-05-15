@@ -17,8 +17,15 @@ class searcPage extends StatefulWidget {
 
 class _searcPageState extends State<searcPage> {
   List<User>? persons;
-  final textFieldContoroller = TextEditingController();
+  List<User>? last_search;
 
+  @override
+  void initState() {
+    get_recived_search();
+    super.initState();
+  }
+
+  final textFieldContoroller = TextEditingController();
 
   void _qrDialog(BuildContext context) {
     showDialog(
@@ -29,40 +36,42 @@ class _searcPageState extends State<searcPage> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10.0))),
             elevation: 0,
-            title: Text("Geliştiriyoruz",style: TextStyle(color: Colors.white),),
-            content: Text("Bu Özellik Şuan Hazır Degil",style: TextStyle(color: Colors.white),),
+            title: Text(
+              "Geliştiriyoruz",
+              style: TextStyle(color: Colors.white),
+            ),
+            content: Text(
+              "Bu Özellik Şuan Hazır Degil",
+              style: TextStyle(color: Colors.white),
+            ),
             actionsAlignment: MainAxisAlignment.center,
-            actions:[
+            actions: [
               MaterialButton(
                 highlightColor: Colors.transparent,
                 splashColor: Colors.transparent,
-
-                onPressed: (){
+                onPressed: () {
                   Navigator.pop(context);
                 },
-                child:Text("Tamam",style: TextStyle(color: Colors.white),) ,
+                child: Text(
+                  "Tamam",
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ],
           );
-        }
-    );
+        });
   }
 
-
   void getData(String filter) async {
+    print("sadap");
     String token = await DatabaseService().readToken();
-    var response = await Dio().get(
-
-        "${BASE_URL}/api/search-user",
-        queryParameters: {
-          "search": filter
-        },
+    var response = await Dio().get("${BASE_URL}/api/search-user",
+        queryParameters: {"search": filter},
         options: Options(
           headers: {
             "Authorization": "Token ${token}",
           },
-        )
-    );
+        ));
 
     print(response.data);
 
@@ -71,79 +80,164 @@ class _searcPageState extends State<searcPage> {
     });
   }
 
+  
+  void get_recived_search()async{
+    String token = await DatabaseService().readToken();
+    var response = await Dio().get(BASE_URL + "/api/recived-search",
+        options: Options(headers: {"Authorization": "Token ${token}"}));
+    setState(() {
+      last_search = User.fromJsonList(response.data["response"]);
+    });
+  }
+  void save_recived_search(id) async {
+    String token = await DatabaseService().readToken();
+    print(id);
+    print(id.runtimeType);
+    var response = await Dio().post(BASE_URL + "/api/recived-search",
+        data: FormData.fromMap({"user": id}),
+        options: Options(headers: {"Authorization": "Token ${token}"}));
+  }
 
+  void delete_recived_search(id) async {
+    String token = await DatabaseService().readToken();
+    print(id);
+    print(id.runtimeType);
+    var response = await Dio().delete(BASE_URL + "/api/recived-search",
+        data: FormData.fromMap({"user": id}),
+        options: Options(headers: {"Authorization": "Token ${token}"}));
+        get_recived_search();
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        toolbarHeight: 100,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: TextField(
-          controller: textFieldContoroller,
-          onChanged:getData,
-          cursorColor: Colors.black,
-          cursorWidth: 1,
-          decoration: InputDecoration(
-            hintText: "Ara",
-            prefixIcon: Icon(Icons.search,color: Colors.grey,),
-
-            prefixIconColor: Colors.grey,
-            filled: true,
-            fillColor: Colors.grey.shade300,
-            border: OutlineInputBorder(
+        backgroundColor: Color(0xFFECE9FF),
+        appBar: AppBar(
+          toolbarHeight: 100,
+          backgroundColor: Color(0xFFECE9FF),
+          elevation: 0,
+          title: TextField(
+            controller: textFieldContoroller,
+            onChanged: (value){
+              getData(value);
+              if (value == null || value == ""){
+                get_recived_search();
+              }
+              },
+              cursorColor: Colors.black,
+              cursorWidth: 1,
+              decoration: InputDecoration(
+              hintText: "Ara",
+              prefixIcon: Icon(
+              Icons.search,
+              color: Colors.grey,
+              ),
+              prefixIconColor: Colors.grey,
+              filled: true,
+              fillColor: Colors.grey.shade300,
+              border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide.none,
-            ),
-
-          ),
-
+              ),
+              ),
+              ),
+              actions: [
+              Padding(
+              padding: EdgeInsets.only(left: 10, right: 20),
+                child: IconButton(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  onPressed: () {
+                    _qrDialog(context);
+                  },
+                  icon: Icon(
+                    Icons.qr_code_scanner,
+                    color: Colors.deepOrange,
+                  ),
+                ))
+          ],
         ),
-        actions: [
-          Padding(padding: EdgeInsets.only(left: 10,right: 20),
-              child:IconButton(
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                onPressed: (){
-                  _qrDialog(context);
-                },
-                icon: Icon(Icons.qr_code_scanner,color: Colors.black,),
-              )
-          )
-        ],
-      ),
-        body:ScrollConfiguration(
+        body: ScrollConfiguration(
             behavior: MyBehavior(),
-            child: ListView.builder(
-                itemCount: persons?.length == null ? 0 :persons!.length,
-                itemBuilder: (context, index){
-                  return ListTile(
-                    onTap:(){Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext
-                          context) =>
-                              userProfilPage(id:persons![index].id,),
-                        ),
-                      );},
+            child: textFieldContoroller.text == null ||
+                    textFieldContoroller.text == ""
+                ? ListView.builder(
+                    itemCount: last_search?.length == null ? 1 : last_search!.length,
+                    itemBuilder: (context, index) {
 
-                    leading:  CircleAvatar(
-                      backgroundImage:NetworkImage("${persons?[index].profile_image}", // No matter how big it is, it won't overflow
-                    ),
-                    ),
+                        if (last_search != null){
+                          print(last_search?[index].profile_image);
+                          return ListTile(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        userProfilPage(
+                                          id: last_search![index].id,
+                                        ),
+                                  ),
+                                );
 
-                    title: Text("${persons?[index].username}"),
+                              },
+                              trailing:IconButton(
+                                icon: Icon(Icons.close,color: Colors.black,),
+                                onPressed: (){
+                                  delete_recived_search(last_search?[index].id);
+                                },
+                              ),
+                              leading: CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                  "${BASE_URL + last_search![index].profile_image}", // No matter how big it is, it won't overflow
+                                ),
+                              ),
+                              title: Text("${last_search?[index].username}"),
+                              subtitle: Row(
+                                children: [
+                                  Text("${last_search?[index].first_name}"),
+                                  Text("${last_search?[index].last_name}"),
+                                ],
+                              ));
+                        }else{
+                          return Container(
+                              child: Center(
+                                  child: CircularProgressIndicator(
+                                      color: Colors.black54,
+                                      strokeWidth: 1,
+                                      backgroundColor: Colors.grey)));
+                        }
 
-                    subtitle:Row(children: [
-                      Text("${persons?[index].first_name}"),
-                      Text("${persons?[index].last_name}"),
+                    })
+                : ListView.builder(
+                    itemCount: persons?.length == null ? 0 : persons!.length,
+                    itemBuilder: (context, index) {
+                      print(persons?[index].profile_image);
+                      return ListTile(
+                          onTap: () {
+                            var r = save_recived_search(persons![index].id);
 
-                    ],)
-
-                  );
-                }
-            ))
-    );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    userProfilPage(
+                                  id: persons![index].id,
+                                ),
+                              ),
+                            );
+                          },
+                          leading: CircleAvatar(
+                            backgroundImage: NetworkImage(
+                              "${persons?[index].profile_image}", // No matter how big it is, it won't overflow
+                            ),
+                          ),
+                          title: Text("${persons?[index].username}"),
+                          subtitle: Row(
+                            children: [
+                              Text("${persons?[index].first_name}"),
+                              Text("${persons?[index].last_name}"),
+                            ],
+                          ));
+                    })));
   }
 }

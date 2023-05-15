@@ -1,23 +1,12 @@
 
-import 'package:basketv2/authentication/api.dart';
+import 'package:basketv2/ArGe.dart';
 import 'package:basketv2/challenge/api.dart';
-import 'package:basketv2/challenge/createChallenge.dart';
-import 'package:basketv2/configuration/settings.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
-import 'package:dotted_dashed_line/dotted_dashed_line.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_image_stack/flutter_image_stack.dart';
-import 'package:intl/date_symbol_data_file.dart';
 import 'package:intl/intl.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:snapping_sheet/snapping_sheet.dart';
 
-import '../ArGe.dart';
-import '../YardimciWidgetlar.dart';
-import '../configuration/dataBase.dart';
 import '../configuration/widgets.dart';
-import '../main.dart';
-import '../profil/MyUserProfil.dart';
 import 'construction.dart';
 
 class challengesPage extends StatefulWidget {
@@ -55,6 +44,14 @@ class _challengesPageState extends State<challengesPage> {
     data = Challenge.fromJsonList(val["response"]);
     setState(() {});
   }
+
+  List deneme = [
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin iaculis egestas eros ut porttitor",
+    "Vestibulum tincidunt tincidunt neque eget varius. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nulla tristique lorem ut pharetra maximus. Curabitur ipsum dolor",
+    "hello3",
+    "hello5",
+    "hello4",
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -119,38 +116,24 @@ class _challengesPageState extends State<challengesPage> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      GestureDetector(
-                                        onTap: () async{
-                            var r = await AuthServices.logout();
-
-                            if (r["succes"] != false) {
-                              DatabaseService()
-                                  .DeleteLoginDatabase()
-                                  .then((value) {
-                                if (value == true) {
-                                  Navigator.of(context)
-                                      .pushAndRemoveUntil(
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              MyApp()),
-                                          (Route<dynamic> route) =>
-                                      false);
-                                }
-                              });
-                            };
-                          },
-                                        child: Padding(
+                                      /// Logo
+                                   GestureDetector(
+                                  onTap: (){},
+                                      child:Padding(
                                             padding: EdgeInsets.only(left: 15),
                                             child: Icon(
                                               Icons.sports_basketball_outlined,
                                               size: 60,
                                               color: Colors.orange,
-                                            )),
-                                      ),
+                                            )),),
 
-                                      /// Logo
-                                      GestureDetector(
-                                        onTap: () {  },
+
+                                      /// Bildirim
+                                      PopupMenuButton(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(10)),
+
+                                        elevation: 0,
                                         child: Padding(
                                             padding: EdgeInsets.only(
                                                 left: 10,
@@ -161,8 +144,8 @@ class _challengesPageState extends State<challengesPage> {
                                                 decoration: BoxDecoration(
                                                     color: Colors.white,
                                                     borderRadius:
-                                                        BorderRadius.circular(
-                                                            40)),
+                                                    BorderRadius.circular(
+                                                        40)),
                                                 width: 50,
                                                 height: 50,
                                                 child: Container(
@@ -171,9 +154,27 @@ class _challengesPageState extends State<challengesPage> {
                                                         .notifications_active),
                                                   ),
                                                 ))),
+                                        position: PopupMenuPosition.under,
+
+                                        constraints: BoxConstraints(
+                                          minWidth: 2.0 * 56.0,
+                                          maxWidth: MediaQuery.of(context).size.width,
+                                          maxHeight: 300,
+                                        ),
+                                        itemBuilder: (context) => List.generate(deneme.length, (index) =>
+                                            PopupMenuItem(
+                                              padding: EdgeInsets.all(10),
+                                              
+                                                child: ListTile(
+
+                                                  title:Text("Challanges"),
+                                                  subtitle: Text("${deneme[index]}"),
+                                                  trailing: Icon(Icons.star,color: Colors.deepOrange,size: 15,),
+                                                )
+                                            )),
                                       )
 
-                                      /// Bildirim
+
                                     ],
                                   ),
                                 ),
@@ -185,8 +186,7 @@ class _challengesPageState extends State<challengesPage> {
                                         reverse:true,
                                         shrinkWrap: true,
                                         itemCount: data!.length,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
+                                        itemBuilder: (BuildContext context, int index) {
                                           return Padding(
                                               padding: EdgeInsets.only(
                                                   top: 10,

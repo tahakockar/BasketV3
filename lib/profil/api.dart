@@ -8,10 +8,8 @@ import 'package:dio/dio.dart';
 Map urls = {
   "my-user-profil":"/auth/my-user",
   "user-profil": "/auth/user-profil",
-  "set-profil": "/auth/set-profil",
+  "set-profil-image": "/auth/set-profil-image",
   "user-info": "/auth/user-info",
-  "change_password_with_token":"/auth/change-password",
-  "set-number":"/auth/set-number"
 };
 
 class ProfilServices {
@@ -29,18 +27,16 @@ class ProfilServices {
     return response.data;
   }
 
-  static Future set_profil({String? username, String? phone,File? profil_photo}) async {
+  static Future set_profil_image({File? profil_photo}) async {
     final formData = FormData.fromMap({
-      'phone': phone,
       'profile_image': profil_photo!=null? await MultipartFile.fromFile(profil_photo.path) : "",
-      "username":username
     });
 
     print(formData);
 
       String token = await DatabaseService().readToken();
       var response = await Dio().post(
-          BASE_URL + urls["set-profil"],
+          BASE_URL + urls["set-profil-image"],
           options: Options(headers: {"Authorization": "Token ${token}"}),
         data: formData);
       return response.data;
@@ -55,36 +51,6 @@ class ProfilServices {
     return response.data;
   }
 
-  static Future change_password_with_token(new_password, confirm_password, password)async{
-    String token = await DatabaseService().readToken();
-    final formData = FormData.fromMap({
-      'new_password': new_password,
-      'confirm_password': confirm_password,
-      "password":password,
-    });
-    var response = await Dio().post(BASE_URL + urls["change_password_with_token"],
-         data: formData,
-        options: Options(headers: {"Authorization": "Token ${token}"}));
-    return response.data;
 
-
-
-
-  }
-
-  static Future set_number(number)async{
-    String token = await DatabaseService().readToken();
-    final formData = FormData.fromMap({
-      "phone":number,
-    });
-    var response = await Dio().post(BASE_URL + urls["set-number"],
-        data: formData,
-        options: Options(headers: {"Authorization": "Token ${token}"}));
-    return response.data;
-
-
-
-
-  }
 
 }

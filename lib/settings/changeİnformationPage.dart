@@ -1,4 +1,4 @@
-import 'package:basketv2/profil/api.dart';
+import 'package:basketv2/settings/api.dart';
 import 'package:flutter/material.dart';
 
 import '../authentication/api.dart';
@@ -187,7 +187,7 @@ class _numberChangePageState extends State<numberChangePage> {
                             onPressed: () async{
                                var is_verify = await AuthServices.check_verify_code(code_controller.text, phone);
                                 if (is_verify["succes"]) {
-                                 var r =  await ProfilServices.set_number(phone);
+                                 var r =  await SettingsServices.set_number(phone);
                                  print(r);
                                 } else {
                                   print("doğrulama başarısız");
@@ -394,7 +394,7 @@ class _passwordChangePageState extends State<passwordChangePage> {
                     padding: EdgeInsets.only(),
                     child: ElevatedButton(
                         onPressed: () async{
-                          var r = await ProfilServices.change_password_with_token(new_password.text, confirm_password.text, password.text);
+                          var r = await SettingsServices.change_password_with_token(new_password.text, confirm_password.text, password.text);
 
                           if (r["succes"] == true){
                             print("şifre yenildendi");

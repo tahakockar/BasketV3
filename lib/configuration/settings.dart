@@ -2,7 +2,7 @@
 
 
 
-String BASE_URL = "http://54.144.65.82";
+String BASE_URL = "http://192.168.0.122";
 
 
 

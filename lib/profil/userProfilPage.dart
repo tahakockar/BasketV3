@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:dotted_dashed_line/dotted_dashed_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_stack/flutter_image_stack.dart';
@@ -35,6 +37,47 @@ class _userProfilPageState extends State<userProfilPage> {
   final ScrollController listViewController = ScrollController();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
+  void _profilImage(BuildContext context){
+    showGeneralDialog(
+      barrierDismissible: true,
+      barrierLabel: '',
+      barrierColor: Colors.black38,
+      transitionDuration: Duration(milliseconds: 300),
+      pageBuilder: (ctx, anim1, anim2) => Dialog(
+        child:Container(
+          height:250,
+          width: 250,
+          child: Card(
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(100),
+            ),
+            child:CircleAvatar(
+              backgroundImage:NetworkImage("${BASE_URL + user_info!.profile_image}",
+              ),
+            ),
+            color: Colors.transparent,
+          ),
+        ),
+
+        backgroundColor: Colors.transparent,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10.0))),
+        elevation: 0,
+
+      ),
+      transitionBuilder: (ctx, anim1, anim2, child) => BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 4 * anim1.value, sigmaY: 4 * anim1.value),
+        child: FadeTransition(
+          child: child,
+          opacity: anim1,
+        ),
+      ),
+      context: context,
+    );
+
+  }
+
   @override
   void initState() {
     id = widget.id;
@@ -58,30 +101,7 @@ class _userProfilPageState extends State<userProfilPage> {
     if (user_info != null) {
       return Scaffold(
           key: scaffoldKey,
-          appBar: AppBar(
-            elevation: 0,
-            title: Text(
-              "${user_info!.first_name} ${user_info!
-                  .last_name}",
-              style: TextStyle(color: Colors.black87),
-            ),
-            actions: [
-              IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.edit,
-                  color: Colors.black,
-                ),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.settings,
-                  color: Colors.black,
-                ),
-              ),
-            ],
-          ),
+          backgroundColor: Color(0xFFECE9FF),
 
           body: SnappingSheet(
 
@@ -117,7 +137,36 @@ class _userProfilPageState extends State<userProfilPage> {
 
 
             sheetBelow:  sheetAbove(context:context, detail:detail?["challenge"], MyPageState:_userProfilPageState(), controller:snappingSheetController, listViewController:listViewController),
-            child: ScrollConfiguration(
+            child: NestedScrollView(
+            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+              return <Widget>[
+                SliverAppBar(
+                  elevation: 0,
+                  backgroundColor: Color(0xFFECE9FF),
+                  leading: IconButton(
+                    icon: Icon(Icons.arrow_back_ios,color: Colors.black,),
+                    onPressed: (){Navigator.pop(context); },
+                  ),
+
+                  actions: [
+                    IconButton(
+                      onPressed: () { },
+                      icon: Icon(
+                        Icons.share,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                  pinned: false,
+                  floating: false,
+                  forceElevated: innerBoxIsScrolled,
+
+
+                ),
+              ];
+            },
+
+           body: ScrollConfiguration(
                 behavior: MyBehavior(),
                 child: SingleChildScrollView(
                   child: Column(
@@ -125,8 +174,10 @@ class _userProfilPageState extends State<userProfilPage> {
                       Container(
                         child: Column(
                           children: [
-                            Padding(
-                              padding: EdgeInsets.only(),
+                            GestureDetector(
+                              onTap:(){
+                                _profilImage(context);
+                              },
                               child: Container(
                                 height: 150,
                                 width: 150,
@@ -135,11 +186,8 @@ class _userProfilPageState extends State<userProfilPage> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(100),
                                   ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(100),
-                                    child: Image.network(
-                                      BASE_URL + user_info!.profile_image,
-                                      fit: BoxFit.fill,
+                                  child:CircleAvatar(
+                                    backgroundImage:NetworkImage("${BASE_URL + user_info!.profile_image}", // No matter how big it is, it won't overflow
                                     ),
                                   ),
                                   color: Colors.red,
@@ -788,6 +836,7 @@ class _userProfilPageState extends State<userProfilPage> {
                     ],
                   ),
                 )),
+          )
           )
       );
     } else {

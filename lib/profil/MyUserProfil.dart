@@ -1,14 +1,15 @@
-import 'package:basketv2/ArGe.dart';
+import 'dart:ui';
 import 'package:basketv2/authentication/construction.dart';
 import 'package:basketv2/challenge/construction.dart';
 import 'package:basketv2/configuration/settings.dart';
 import 'package:basketv2/profil/api.dart';
-import 'package:basketv2/profil/settingsPage.dart';
+import 'package:basketv2/settings/settingsPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:snapping_sheet/snapping_sheet.dart';
 import '../YardimciWidgetlar.dart';
 import '../configuration/widgets.dart';
+import 'editPage.dart';
 
 class myUserProfilPage extends StatefulWidget {
   const myUserProfilPage({Key? key}) : super(key: key);
@@ -31,6 +32,47 @@ class _myUserProfilPageState extends State<myUserProfilPage> {
   final ScrollController listViewController = ScrollController();
   final scaffoldKey2 = GlobalKey<ScaffoldState>();
 
+  void _profilImage(BuildContext context){
+    showGeneralDialog(
+      barrierDismissible: true,
+      barrierLabel: '',
+      barrierColor: Colors.black38,
+      transitionDuration: Duration(milliseconds: 300),
+      pageBuilder: (ctx, anim1, anim2) => Dialog(
+        child:Container(
+          height:250,
+          width: 250,
+          child: Card(
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(100),
+            ),
+            child:CircleAvatar(
+              backgroundImage:NetworkImage("${BASE_URL + user_info!.profile_image}",
+              ),
+            ),
+            color: Colors.transparent,
+          ),
+        ),
+
+        backgroundColor: Colors.transparent,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10.0))),
+        elevation: 0,
+
+      ),
+      transitionBuilder: (ctx, anim1, anim2, child) => BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 4 * anim1.value, sigmaY: 4 * anim1.value),
+        child: FadeTransition(
+          child: child,
+          opacity: anim1,
+        ),
+      ),
+      context: context,
+    );
+
+  }
+
   @override
   void initState() {
     ProfilServices.get_my_user_info().then((value) {
@@ -51,6 +93,7 @@ class _myUserProfilPageState extends State<myUserProfilPage> {
   @override
   Widget build(BuildContext context) {
     if (user_info != null) {
+      print(BASE_URL + user_info!.profile_image);
       return Scaffold(
           key: scaffoldKey2,
           backgroundColor: Color(0xFFECE9FF),
@@ -86,25 +129,9 @@ class _myUserProfilPageState extends State<myUserProfilPage> {
     headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
       return <Widget>[
         SliverAppBar(
-          title: Text(
-            "Hello",
-            style: TextStyle(color: Colors.black87),
-          ),
+          elevation: 0,
+          backgroundColor: Color(0xFFECE9FF),
           actions: [
-            IconButton(
-              onPressed: () {
-                Navigator.push (
-                  context,
-                  MaterialPageRoute (
-                    builder: (BuildContext context) => const editPage(),
-                  ),
-                );
-              },
-              icon: Icon(
-                Icons.edit,
-                color: Colors.black,
-              ),
-            ),
             IconButton(
               onPressed: () {
                 Navigator.push (
@@ -116,16 +143,13 @@ class _myUserProfilPageState extends State<myUserProfilPage> {
               },
               icon: Icon(
                 Icons.settings,
-                color: Colors.black,
+                color: Colors.deepOrange,
               ),
             ),
           ],
           pinned: false,
           floating: false,
           forceElevated: innerBoxIsScrolled,
-
-
-
         ),
       ];
 },
@@ -137,33 +161,51 @@ class _myUserProfilPageState extends State<myUserProfilPage> {
               Container(
                 child: Column(
                   children: [
-                    GestureDetector(
-                      onTap: (){
-                        Navigator.push (
-                          context,
-                          MaterialPageRoute (
-                            builder: (BuildContext context) => const editPage(),
-                          ),
-                        );
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.only(),
-                        child: Container(
-                          height: 150,
-                          width: 150,
-                          child: Card(
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                            child:CircleAvatar(
-                              backgroundImage:NetworkImage("${BASE_URL + user_info!.profile_image}", // No matter how big it is, it won't overflow
+                    Stack(
+                      children: [
+                        GestureDetector(
+                           onTap:(){
+                             _profilImage(context);
+                           },
+                            child: Container(
+                              height: 150,
+                              width: 150,
+                              child: Card(
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(100),
+                                ),
+                                child:CircleAvatar(
+                                  backgroundImage:NetworkImage("${BASE_URL + user_info!.profile_image}", // No matter how big it is, it won't overflow
+                                  ),
+                                ),
+                                color: Colors.red,
                               ),
                             ),
-                            color: Colors.red,
                           ),
-                        ),
-                      ),),
+                        Positioned(
+                            bottom: 5,
+                            right: -10,
+                            child: RawMaterialButton(
+                              onPressed: () {
+
+                                Navigator.push (
+                                  context,
+                                  MaterialPageRoute (
+                                    builder: (BuildContext context) => const editPage(),
+                                  ),
+                                );
+
+                              },
+                              elevation: 0,
+                              fillColor: Colors.white,
+                              child: Icon(Icons.edit, color: Colors.orange,size: 18,),
+                              padding: EdgeInsets.all(10.0),
+                              shape: CircleBorder(),
+                            )),
+                      ],
+                    ),
+
                     Padding(
                       padding: EdgeInsets.only(top: 20),
                       child: Text(
