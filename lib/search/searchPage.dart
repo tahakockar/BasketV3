@@ -7,6 +7,8 @@ import '../authentication/construction.dart';
 import '../configuration/dataBase.dart';
 import '../configuration/settings.dart';
 import '../profil/userProfilPage.dart';
+import '../configuration/widgets.dart';
+
 
 class searcPage extends StatefulWidget {
   const searcPage({Key? key}) : super(key: key);
@@ -27,40 +29,6 @@ class _searcPageState extends State<searcPage> {
 
   final textFieldContoroller = TextEditingController();
 
-  void _qrDialog(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: Colors.grey.withOpacity(0.9),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10.0))),
-            elevation: 0,
-            title: Text(
-              "Geliştiriyoruz",
-              style: TextStyle(color: Colors.white),
-            ),
-            content: Text(
-              "Bu Özellik Şuan Hazır Degil",
-              style: TextStyle(color: Colors.white),
-            ),
-            actionsAlignment: MainAxisAlignment.center,
-            actions: [
-              MaterialButton(
-                highlightColor: Colors.transparent,
-                splashColor: Colors.transparent,
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  "Tamam",
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ],
-          );
-        });
-  }
 
   void getData(String filter) async {
     print("sadap");
@@ -148,7 +116,7 @@ class _searcPageState extends State<searcPage> {
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,
                   onPressed: () {
-                    _qrDialog(context);
+                    error(context: context, error_content: "hata var");
                   },
                   icon: Icon(
                     Icons.qr_code_scanner,

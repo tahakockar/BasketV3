@@ -9,7 +9,8 @@ import 'challenge/createChallenge.dart';
 
 
 class bottomNavigationBarPage extends StatefulWidget {
-  const bottomNavigationBarPage({Key? key}) : super(key: key);
+  int? index;
+  bottomNavigationBarPage({Key? key, this.index}) : super(key: key);
 
   @override
   _bottomNavigationBarPageState createState() => _bottomNavigationBarPageState();
@@ -18,6 +19,16 @@ class bottomNavigationBarPage extends StatefulWidget {
 class _bottomNavigationBarPageState extends State<bottomNavigationBarPage> {
   int _selectedIndex = 0;
 
+  @override
+  void initState() {
+    if (widget.index != null){
+      setState(() {
+        _selectedIndex = widget.index!;
+      });
+    }
+    super.initState();
+  }
+
   static List<Widget> _widgetOptions = <Widget>[
     challengesPage(),
     searcPage(),
@@ -25,6 +36,7 @@ class _bottomNavigationBarPageState extends State<bottomNavigationBarPage> {
   ];
 
   void _onItemTapped(int index) {
+    print(index);
     if (_widgetOptions.length > index) {
       setState(() {
         _selectedIndex = index;
@@ -138,7 +150,7 @@ class _bottomNavigationBarPageState extends State<bottomNavigationBarPage> {
     return Scaffold(
         extendBody: true,
       body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+                                                                                                                                                            child: _widgetOptions.elementAt(_selectedIndex),
       ),
         bottomNavigationBar: Container(
             height: 80,

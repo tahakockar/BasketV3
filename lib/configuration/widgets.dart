@@ -10,25 +10,28 @@ import 'package:shimmer/shimmer.dart';
 import 'package:snapping_sheet/snapping_sheet.dart';
 
 import '../YardimciWidgetlar.dart';
+import '../bottomNavigationBarPage.dart';
 
 SnappingSheetContent sheetAbove(
     {required BuildContext context,
-    Challenge? detail,
-    MyPageState,
-    required SnappingSheetController controller,
-    required ScrollController listViewController}) {
+      Challenge? detail,
+      MyPageState,
+      required SnappingSheetController controller,
+      required ScrollController listViewController,
+      bool? is_show_join
+    }) {
   if (detail != null) {
     String _date =
-        DateFormat("dd.MM.yyyy").format(DateTime.parse(detail!.start_time));
+    DateFormat("dd.MM.yyyy").format(DateTime.parse(detail!.start_time));
     String _start_time =
-        DateFormat("HH:mm").format(DateTime.parse(detail!.start_time));
+    DateFormat("HH:mm").format(DateTime.parse(detail!.start_time));
     String _end_time =
-        DateFormat("HH:mm").format(DateTime.parse(detail!.end_time));
+    DateFormat("HH:mm").format(DateTime.parse(detail!.end_time));
     String _place = detail!.place.name;
 
     return SnappingSheetContent(
 
-        ///Detail Sheet
+      ///Detail Sheet
         draggable: true,
         childScrollController: listViewController,
         child: Container(
@@ -247,7 +250,7 @@ SnappingSheetContent sheetAbove(
                                         ),
                                         child: ExpansionTile(
                                           expandedCrossAxisAlignment:
-                                              CrossAxisAlignment.end,
+                                          CrossAxisAlignment.end,
                                           trailing: Icon(Icons
                                               .keyboard_arrow_down_rounded),
                                           leading: Icon(
@@ -261,13 +264,13 @@ SnappingSheetContent sheetAbove(
                                             child: FlutterImageStack(
                                               imageList: List<String>.generate(
                                                   detail!.players.length,
-                                                  (index) =>
-                                                      BASE_URL +
+                                                      (index) =>
+                                                  BASE_URL +
                                                       detail!.players[index]
                                                           .profile_image),
                                               showTotalCount: true,
                                               totalCount:
-                                                  detail!.players.length,
+                                              detail!.players.length,
                                               itemRadius: 60,
                                               itemCount: 3,
                                               itemBorderWidth: 2,
@@ -277,10 +280,10 @@ SnappingSheetContent sheetAbove(
                                             SizedBox(
                                               child: ListView.builder(
                                                   physics:
-                                                      NeverScrollableScrollPhysics(),
+                                                  NeverScrollableScrollPhysics(),
                                                   shrinkWrap: true,
                                                   itemCount:
-                                                      detail!.players.length,
+                                                  detail!.players.length,
                                                   itemBuilder:
                                                       (context, index) {
                                                     return GestureDetector(
@@ -296,36 +299,36 @@ SnappingSheetContent sheetAbove(
                                                         },
                                                         child: Padding(
                                                             padding:
-                                                                EdgeInsets.only(
+                                                            EdgeInsets.only(
                                                               bottom: 20,
                                                               top: 30,
                                                             ),
                                                             child: Container(
                                                               decoration: BoxDecoration(
                                                                   borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              20)),
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                      20)),
                                                               child: Card(
                                                                 shape:
-                                                                    RoundedRectangleBorder(
+                                                                RoundedRectangleBorder(
                                                                   borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              20),
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                      20),
                                                                   //set border radius more than 50% of height and width to make circle
                                                                 ),
                                                                 color: Colors.white,
                                                                 child: ListTile(
                                                                   contentPadding:
-                                                                      EdgeInsets
-                                                                          .all(
-                                                                              10),
+                                                                  EdgeInsets
+                                                                      .all(
+                                                                      10),
                                                                   leading:
-                                                                      CircleAvatar(
+                                                                  CircleAvatar(
                                                                     backgroundColor:
-                                                                        Colors
-                                                                            .orange,
+                                                                    Colors
+                                                                        .orange,
                                                                     child: Icon(
                                                                       Icons
                                                                           .person,
@@ -335,9 +338,9 @@ SnappingSheetContent sheetAbove(
                                                                   ),
                                                                   title: Text(
                                                                     detail!
-                                                                            .players[
-                                                                                index]
-                                                                            .first_name +
+                                                                        .players[
+                                                                    index]
+                                                                        .first_name +
                                                                         " " +
                                                                         detail!
                                                                             .players[index]
@@ -347,7 +350,7 @@ SnappingSheetContent sheetAbove(
                                                                             .black),
                                                                   ),
                                                                   subtitle:
-                                                                      Text(
+                                                                  Text(
                                                                     "@" +
                                                                         detail!
                                                                             .players[index]
@@ -357,7 +360,7 @@ SnappingSheetContent sheetAbove(
                                                                             .black54),
                                                                   ),
                                                                   trailing:
-                                                                      IconButton(
+                                                                  IconButton(
                                                                     onPressed:
                                                                         () {
                                                                       Navigator
@@ -366,8 +369,8 @@ SnappingSheetContent sheetAbove(
                                                                         MaterialPageRoute(
                                                                           builder: (BuildContext context) =>
                                                                               userProfilPage(
-                                                                            id: detail!.players[index].id,
-                                                                          ),
+                                                                                id: detail!.players[index].id,
+                                                                              ),
                                                                         ),
                                                                       );
                                                                     },
@@ -391,37 +394,46 @@ SnappingSheetContent sheetAbove(
                             ),
 
                             /// Katıl Butonu
-                            DateTime.now().isBefore(DateTime.parse(detail.start_time!)) == true
-                                ? Transform.translate(
-                                    offset: Offset(
-                                      -0,
-                                      -50,
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsets.all(0),
-                                      child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                            elevation: 3,
-                                            backgroundColor: Colors.white,
-                                            shape: StadiumBorder()),
-                                        onPressed: () async {
-                                          var x = await ChallengeServices
-                                              .join_challenge(detail!.id);
 
-                                          MyPageState.setState(() {
-                                            controller.snapToPosition(
-                                                SnappingPosition.factor(
-                                              positionFactor: 0,
-                                            ));
-                                          });
-                                        },
-                                        child: Container(
-                                          height: 50,
-                                          width: 90,
-                                          child: Center(
-                                              child: Row(
+                            detail.can_join == true
+                                ? Transform.translate(
+                                offset: Offset(
+                                  -0,
+                                  -50,
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.all(0),
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        elevation: 3,
+                                        backgroundColor: Colors.white,
+                                        shape: StadiumBorder()),
+                                    onPressed: () async {
+                                      var x = await ChallengeServices
+                                          .join_challenge(detail!.id);
+
+
+                                      if(x["succes"] == true){
+                                        Navigator.push (
+                                          context,
+                                          MaterialPageRoute (
+                                            builder: (BuildContext context) =>  bottomNavigationBarPage(index: 0,),
+                                          ),
+                                        );
+
+                                      }else{
+                                        error(context: context,title:x["error"]["title"]  ,error_content: x["error"]["message"]);
+                                      }
+
+
+                                    },
+                                    child: Container(
+                                      height: 50,
+                                      width: 90,
+                                      child: Center(
+                                          child: Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
+                                            MainAxisAlignment.spaceAround,
                                             children: [
                                               Text(
                                                 "Katıl",
@@ -435,10 +447,63 @@ SnappingSheetContent sheetAbove(
                                               ),
                                             ],
                                           )),
-                                        ),
-                                      ),
-                                    ))
-                                : Container(),
+                                    ),
+                                  ),
+                                ))
+                                : Transform.translate(
+                                offset: Offset(
+                                  -0,
+                                  -50,
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.all(0),
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        elevation: 3,
+                                        backgroundColor: Colors.red,
+                                        shape: StadiumBorder()),
+                                    onPressed: () async{
+
+                                      var x = await ChallengeServices
+                                          .leave_challenge(detail!.id);
+                                      print(x);
+
+                                      if(x["succes"] == true){
+                                        Navigator.push (
+                                          context,
+                                          MaterialPageRoute (
+                                            builder: (BuildContext context) =>  bottomNavigationBarPage(index: 0,),
+                                          ),
+                                        );
+
+                                      }else{
+                                        error(context: context,title:x["error"]["title"]  ,error_content: x["error"]["message"]);
+                                      }
+
+                                    },
+                                    child: Container(
+                                      height: 50,
+                                      width: 90,
+                                      child: Center(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                            children: [
+                                              Text(
+                                                "Ayrıl",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 17),
+                                              ),
+                                              Icon(
+                                                Icons.close,
+                                                color: Colors.white,
+                                              ),
+                                            ],
+                                          )),
+                                    ),
+                                  ),
+                                ))
                           ],
                         ));
                   },
@@ -448,7 +513,7 @@ SnappingSheetContent sheetAbove(
   } else {
     return SnappingSheetContent(
 
-        ///Detail Sheet
+      ///Detail Sheet
         draggable: true,
         childScrollController: listViewController,
         child: Container(
@@ -465,4 +530,41 @@ SnappingSheetContent sheetAbove(
                       backgroundColor: Colors.grey))),
         ));
   }
+}
+
+
+
+void error({required BuildContext context, String? title, required String error_content}) {
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.grey.withOpacity(0.9),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10.0))),
+          elevation: 0,
+          title: Text(
+            title != null? title!: "Sorun Oluştu",
+            style: TextStyle(color: Colors.white),
+          ),
+          content: Text(
+            error_content,
+            style: TextStyle(color: Colors.white),
+          ),
+          actionsAlignment: MainAxisAlignment.center,
+          actions: [
+            MaterialButton(
+              highlightColor: Colors.transparent,
+              splashColor: Colors.transparent,
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text(
+                "Tamam",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        );
+      });
 }

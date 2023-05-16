@@ -1,3 +1,4 @@
+import 'package:basketv2/profil/MyUserProfil.dart';
 import 'package:basketv2/profil/api.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
@@ -5,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../ArGe.dart';
 import '../authentication/construction.dart';
+import '../bottomNavigationBarPage.dart';
 import '../configuration/settings.dart';
 
 class editPage extends StatefulWidget {
@@ -56,8 +58,15 @@ class _editPageState extends State<editPage> {
         ),
         actions: [
           TextButton(onPressed: ()async{
-            var response = await ProfilServices.set_profil_image(profil_photo: _image,);
-            print(response);
+            var r = await ProfilServices.set_profil_image(profil_photo: _image,);
+            if(r["succes"] == true){
+              Navigator.push (
+                context,
+                MaterialPageRoute (
+                  builder: (BuildContext context) => bottomNavigationBarPage(index: 2,),
+                ),
+              );
+            }
 
           },
               child: Text("Kaydet",style:TextStyle(fontWeight: FontWeight.bold),))
@@ -141,6 +150,21 @@ class _editPageState extends State<editPage> {
               ),
 
             ),
+
+            ElevatedButton(
+                onPressed: ()async{
+                  var r = await ProfilServices.delete_profil_image();
+
+                  if(r["succes"] == true){
+                    Navigator.push (
+                      context,
+                      MaterialPageRoute (
+                        builder: (BuildContext context) => bottomNavigationBarPage(index: 2,),
+                      ),
+                    );
+                  }
+                },
+                child: Text("Sil"))
 
           ],
         ),

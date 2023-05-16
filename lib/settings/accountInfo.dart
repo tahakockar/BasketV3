@@ -80,14 +80,6 @@ class _passwordResetPageState extends State<passwordResetPage> {
                     subtitle: Text(DateFormat("dd MM yyyy").format(DateTime.parse(user_info!.birthday.toString())),),
                   ),
                 ),
-
-
-                  TextField(
-                    controller:
-                    TextEditingController(text: user_info!.number), // <-- SEE HERE
-                    decoration: InputDecoration(labelText: 'Enter Number'),
-
-                )
               ],
             )
         ),

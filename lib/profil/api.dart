@@ -10,6 +10,7 @@ Map urls = {
   "user-profil": "/auth/user-profil",
   "set-profil-image": "/auth/set-profil-image",
   "user-info": "/auth/user-info",
+  "delete-profil-image": "/auth/delete-profil-image",
 };
 
 class ProfilServices {
@@ -23,7 +24,7 @@ class ProfilServices {
 
   static Future get_user_info(id) async {
     String token = await DatabaseService().readToken();
-    var response = await Dio().get(BASE_URL + urls["user-profil"], queryParameters: {"id":id});
+    var response = await Dio().get(BASE_URL + urls["user-profil"], queryParameters: {"id":id}, options: Options(headers: {"Authorization": "Token ${token}"}));
     return response.data;
   }
 
@@ -49,6 +50,19 @@ class ProfilServices {
     var response = await Dio().get(BASE_URL + urls["user-info"],
         options: Options(headers: {"Authorization": "Token ${token}"}));
     return response.data;
+  }
+
+
+  static Future delete_profil_image() async {
+
+
+    String token = await DatabaseService().readToken();
+    var response = await Dio().delete(
+        BASE_URL + urls["delete-profil-image"],
+        options: Options(headers: {"Authorization": "Token ${token}"}),
+    );
+    return response.data;
+
   }
 
 

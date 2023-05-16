@@ -8,7 +8,9 @@ import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
+import '../bottomNavigationBarPage.dart';
 import '../configuration/settings.dart';
+import '../configuration/widgets.dart';
 
 
 class createChallangePage extends StatefulWidget {
@@ -25,6 +27,7 @@ class _createChallangePageState extends State<createChallangePage>
 
   late TabController _tabController;
   TextEditingController _search = TextEditingController();
+
 
   List dates = [];
   String? _token;
@@ -118,17 +121,35 @@ class _createChallangePageState extends State<createChallangePage>
 
           onPressed: () async {
             // veriler boş mu diye kontrol edilicek
-            print(_start_date);
-            Map<String, dynamic> data = {
-              "start_time": _start_date!.toIso8601String(),
-              "end_time": _end_time!.toIso8601String(),
-              "game_size": {"id": _selected_gameSize!.toInt()},
-              "place": {"id": _selected_place!.id!.toInt()}
-            };
-            print(data);
-            ChallengeServices.create_challenge(data)
-                .then((value) => print(value));
-          },
+
+            if(_start_date != null && _end_time != null && _selected_gameSize != null && _selected_place != null ){
+              print(_start_date);
+              Map<String, dynamic> data = {
+                "start_time": _start_date!.toIso8601String(),
+                "end_time": _end_time!.toIso8601String(),
+                "game_size": {"id": _selected_gameSize!.toInt()},
+                "place": {"id": _selected_place!.id!.toInt()}
+              };
+              print(data);
+              ChallengeServices.create_challenge(data)
+                  .then((value){
+                    if(value["succes"]){
+                      Navigator.push (
+                        context,
+                        MaterialPageRoute (
+                          builder: (BuildContext context) => bottomNavigationBarPage(index: 0,),
+                        ),
+                      );
+                    }else{
+                      error(context: context, error_content: value["message"]);
+                    }
+              });
+            }else{
+              error(context: context, title: "Boş yer bırakma!" ,error_content: "Tüm yerleri doldurun");
+
+            }
+            }
+
 
 
         ),
@@ -336,6 +357,8 @@ class _createChallangePageState extends State<createChallangePage>
                                                                     } else {
                                                                       print(
                                                                           "tarih seç lütfen");
+
+                                                                      error(context: context,title: "Bilgilendirme", error_content: "tarih seç lütfen");
                                                                     }
                                                                   },
                                                                 ),
@@ -548,12 +571,14 @@ class _createChallangePageState extends State<createChallangePage>
                                                               if (query > 0) {
                                                                 print(
                                                                     "başlangıç saati bitiş saatinden büyük olamaz");
+                                                                error(context: context, title:"Bilgilendirme", error_content: "başlangıç saati bitiş saatinden büyük olamaz");
                                                               } else {
                                                                 int fark = _end_time
                                                                     .difference(
                                                                     _start_date!)
                                                                     .inMinutes;
                                                                 if (fark < 30) {
+                                                                  error(context: context,title:"Bilgilendirme",error_content: "en az 30 dk maç oynayabilirsi");
                                                                   print(
                                                                       "en az 30 dk maç oynayabilirsin");
                                                                 } else {
@@ -760,11 +785,11 @@ class _createChallangePageState extends State<createChallangePage>
                                                   int index) {
                                                 return GestureDetector(
                                                     onTap: () {
-                                                      _selected_place =
-                                                      _places![index];
-                                                      Navigator.pop(context);
-                                                      setState(() {});
-                                                      print(_selected_place);
+                                                      setState(() {
+                                                        _selected_place =_places![index];
+                                                        });
+                                                      Navigator.pop(context, _places![index]);
+
                                                     },
                                                     child: Padding(
                                                         padding:
@@ -865,7 +890,13 @@ class _createChallangePageState extends State<createChallangePage>
                               ),
                             );
                           });
-                        });
+                        }).then((value){
+                          setState(() {
+                            _selected_place = value;
+                          });
+
+
+                    });
                   },
                   child: Padding(
                     padding: EdgeInsets.only( right: 20, left: 20),
@@ -943,6 +974,7 @@ class _createChallangePageState extends State<createChallangePage>
                 SizedBox(
                   height: 50,
                 ),
+
 
               ],
             ),

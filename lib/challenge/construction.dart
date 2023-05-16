@@ -88,6 +88,7 @@ class Challenge {
   late String end_time;
   late String created_at;
   late List<User> players;
+  bool? can_join;
 
   Challenge({
     this.id,
@@ -98,6 +99,7 @@ class Challenge {
     required this.end_time,
     required this.created_at,
     required this.players,
+    this.can_join
   });
 
   Challenge.fromJson(Map json) {
@@ -109,6 +111,7 @@ class Challenge {
     start_time = json["start_time"];
     end_time = json["end_time"];
     created_at = json["created_at"];
+    can_join = json["can_join"];
   }
 
 
@@ -126,6 +129,7 @@ class Challenge {
       "start_time": this.start_time,
       "end_time": this.end_time,
       "created_at": this.created_at,
+      "can_join": this.can_join,
     };
   }
 

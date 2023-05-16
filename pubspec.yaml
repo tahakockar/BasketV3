@@ -49,6 +49,7 @@ dependencies:
 
   #yaş seçme
   flutter_holo_date_picker: ^1.1.0
+  provider: ^6.0.5
 
   #date formatter
   intl: ^0.18.0
