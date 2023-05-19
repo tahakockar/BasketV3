@@ -153,15 +153,15 @@ class _bottomNavigationBarPageState extends State<bottomNavigationBarPage> {
                                                                                                                                                             child: _widgetOptions.elementAt(_selectedIndex),
       ),
         bottomNavigationBar: Container(
-            height: 80,
+            height: 90,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                   topRight: Radius.circular(20), topLeft: Radius.circular(20)),
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20.0),
-                topRight: Radius.circular(20.0),
+                topLeft: Radius.circular(40.0),
+                topRight: Radius.circular(40.0),
               ),
               child: BottomNavigationBar(
 
@@ -169,25 +169,26 @@ class _bottomNavigationBarPageState extends State<bottomNavigationBarPage> {
                 type: BottomNavigationBarType.fixed,
                 items:  <BottomNavigationBarItem>[
                   BottomNavigationBarItem(
-
-
-                    activeIcon: Icon(Icons.home,color: Colors.black,),
+                    activeIcon: Icon(Icons.home,color: Colors.black,   size: 30,),
                     label: "",
                     icon: Icon(
                       Icons.home_outlined,
                       color: Colors.black87,
+                      size: 30,
                     ),
                   ),
                   BottomNavigationBarItem(
                       icon: Icon(
                         Icons.search_sharp,
                         color: Colors.black87,
+                        size: 30,
                       ),
                       label: ""),
                   BottomNavigationBarItem(
-                      activeIcon: Icon(Icons.person,color: Colors.black,),
+                      activeIcon: Icon(Icons.person,color: Colors.black,   size: 30,),
                       icon:Icon(Icons.person_outline_outlined,
                         color: Colors.black87,
+                        size: 30,
                       ),
                       label: ""),
                   BottomNavigationBarItem(
@@ -195,6 +196,7 @@ class _bottomNavigationBarPageState extends State<bottomNavigationBarPage> {
                       icon: Icon(
                         Icons.sports_basketball_rounded,
                         color: Colors.deepOrange,
+                        size: 30,
                       ),
                       label: ""),
 

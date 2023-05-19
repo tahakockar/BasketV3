@@ -1,4 +1,4 @@
-import 'package:basketv2/profil/MyUserProfil.dart';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -81,6 +81,7 @@ class _searcPageState extends State<searcPage> {
     return Scaffold(
         backgroundColor: Color(0xFFECE9FF),
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           toolbarHeight: 100,
           backgroundColor: Color(0xFFECE9FF),
           elevation: 0,

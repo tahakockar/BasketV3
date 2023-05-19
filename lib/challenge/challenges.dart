@@ -67,6 +67,7 @@ class _challengesPageState extends State<challengesPage> {
               controller: snappingSheetController,
               lockOverflowDrag: true,
               snappingPositions: [
+
                 /// Sheet pozisyon
                 SnappingPosition.factor(
                   snappingCurve: Curves.easeInOutCubicEmphasized,
@@ -92,6 +93,7 @@ class _challengesPageState extends State<challengesPage> {
 
 
 
+              /// Ana Sayfa
               child: CustomRefreshIndicator(
                 builder: MaterialIndicatorDelegate(
                   builder: (context, controller) {
@@ -192,8 +194,8 @@ class _challengesPageState extends State<challengesPage> {
                                               padding: EdgeInsets.only(
                                                   top: 10,
                                                   bottom: 30,
-                                                  left: 20,
-                                                  right: 20),
+                                                  left: 25,
+                                                  right: 25),
                                               child: GestureDetector(
                                                 /// Challenges Card Tıklama Fonksiyonu
                                                 onTap: () async {

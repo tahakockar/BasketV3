@@ -12,6 +12,7 @@ import 'package:snapping_sheet/snapping_sheet.dart';
 import '../YardimciWidgetlar.dart';
 import '../bottomNavigationBarPage.dart';
 
+
 SnappingSheetContent sheetAbove(
     {required BuildContext context,
       Challenge? detail,
@@ -44,7 +45,7 @@ SnappingSheetContent sheetAbove(
                   offset: Offset(0, 3), // changes position of shadow
                 ),
               ],
-              color: Color(0xFFECE9FF),
+              color: Colors.white,
               borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
             ),
             child: Container(
@@ -409,23 +410,56 @@ SnappingSheetContent sheetAbove(
                                         backgroundColor: Colors.white,
                                         shape: StadiumBorder()),
                                     onPressed: () async {
-                                      var x = await ChallengeServices
-                                          .join_challenge(detail!.id);
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              backgroundColor: Colors.grey.withOpacity(0.9),
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                                              elevation: 0,
+                                              title: Text("Katılmak İstiyormusunuz",style: TextStyle(color: Colors.white),),
+                                              content: Text("Bu Challange Katılmak Üzeresiniz",style: TextStyle(color: Colors.white),),
+                                              actionsAlignment: MainAxisAlignment.center,
+                                              actions:[
+                                                MaterialButton(
+                                                  highlightColor: Colors.transparent,
+                                                  splashColor: Colors.transparent,
+
+                                                  onPressed: (){
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child:Text("Geri",style: TextStyle(color: Colors.white),) ,
+                                                ),
+                                                MaterialButton(
+                                                  highlightColor: Colors.transparent,
+                                                  splashColor: Colors.transparent,
+
+                                                  onPressed: ()async{
+                                                    var x = await ChallengeServices
+                                                        .join_challenge(detail!.id);
 
 
-                                      if(x["succes"] == true){
-                                        Navigator.push (
-                                          context,
-                                          MaterialPageRoute (
-                                            builder: (BuildContext context) =>  bottomNavigationBarPage(index: 0,),
-                                          ),
-                                        );
+                                                    if(x["succes"] == true){
+                                                      Navigator.push (
+                                                        context,
+                                                        MaterialPageRoute (
+                                                          builder: (BuildContext context) =>  bottomNavigationBarPage(index: 0,),
+                                                        ),
+                                                      );
 
-                                      }else{
-                                        error(context: context,title:x["error"]["title"]  ,error_content: x["error"]["message"]);
-                                      }
+                                                    }else{
+                                                      error(context: context,title:x["error"]["title"]  ,error_content: x["error"]["message"]);
+                                                    }
 
 
+                                                  },
+                                                  child:Text("Katıl",style: TextStyle(color: Colors.white),) ,
+                                                ),
+                                              ],
+                                            );
+                                          }
+                                      );
                                     },
                                     child: Container(
                                       height: 50,
@@ -463,22 +497,52 @@ SnappingSheetContent sheetAbove(
                                         backgroundColor: Colors.red,
                                         shape: StadiumBorder()),
                                     onPressed: () async{
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              backgroundColor: Colors.grey.withOpacity(0.9),
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                                              elevation: 0,
+                                              title: Text("Ayrılmak İstiyormusunuz",style: TextStyle(color: Colors.white),),
+                                              content: Text("Bu Challange Ayrılmak Üzeresiniz",style: TextStyle(color: Colors.white),),
+                                              actionsAlignment: MainAxisAlignment.center,
+                                              actions:[
+                                                MaterialButton(
+                                                  highlightColor: Colors.transparent,
+                                                  splashColor: Colors.transparent,
 
-                                      var x = await ChallengeServices
-                                          .leave_challenge(detail!.id);
-                                      print(x);
+                                                  onPressed: (){
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child:Text("Geri",style: TextStyle(color: Colors.white),) ,
+                                                ),
+                                                MaterialButton(
+                                                  highlightColor: Colors.transparent,
+                                                  splashColor: Colors.transparent,
 
-                                      if(x["succes"] == true){
-                                        Navigator.push (
-                                          context,
-                                          MaterialPageRoute (
-                                            builder: (BuildContext context) =>  bottomNavigationBarPage(index: 0,),
-                                          ),
-                                        );
+                                                  onPressed: ()async{var x = await ChallengeServices
+                                                      .leave_challenge(detail!.id);
+                                                  print(x);
 
-                                      }else{
-                                        error(context: context,title:x["error"]["title"]  ,error_content: x["error"]["message"]);
-                                      }
+                                                  if(x["succes"] == true){
+                                                    Navigator.push (
+                                                      context,
+                                                      MaterialPageRoute (
+                                                        builder: (BuildContext context) =>  bottomNavigationBarPage(index: 0,),
+                                                      ),
+                                                    );
+
+                                                  }else{
+                                                    error(context: context,title:x["error"]["title"]  ,error_content: x["error"]["message"]);
+                                                  } },
+                                                  child:Text("Ayrıl",style: TextStyle(color: Colors.white),) ,
+                                                ),
+                                              ],
+                                            );
+                                          }
+                                      );
 
                                     },
                                     child: Container(

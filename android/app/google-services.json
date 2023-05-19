@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "231641648937",
-    "project_id": "baketv2-d2067",
-    "storage_bucket": "baketv2-d2067.appspot.com"
+    "project_number": "80341605140",
+    "project_id": "basketv2",
+    "storage_bucket": "basketv2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:231641648937:android:d50f3e6e3ec723178db138",
+        "mobilesdk_app_id": "1:80341605140:android:f4d0f3f72f3760cf46c001",
         "android_client_info": {
           "package_name": "com.example.basketv2"
         }
       },
       "oauth_client": [
         {
-          "client_id": "231641648937-9ka4ifq77h7p82nr88gngu16j0ilctp5.apps.googleusercontent.com",
+          "client_id": "80341605140-d89rg3iq2cn723cmtvh269432pshd5v0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.basketv2",
+            "certificate_hash": "e74fda40aabac1857957286b550a66905c4dba11"
+          }
+        },
+        {
+          "client_id": "80341605140-lsc64hsjropdugepis8qqeb9mdf2frcs.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDwra5GZzfiixx5W_U_U-0LQG_kO6GgpCY"
+          "current_key": "AIzaSyCQcNBlJHYLyYeM6oLV5WpD_hpg1gPxIPw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "231641648937-9ka4ifq77h7p82nr88gngu16j0ilctp5.apps.googleusercontent.com",
+              "client_id": "80341605140-lsc64hsjropdugepis8qqeb9mdf2frcs.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

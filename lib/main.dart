@@ -1,19 +1,34 @@
 import 'package:basketv2/authentication/api.dart';
 import 'package:basketv2/authentication/login.dart';
 import 'package:basketv2/bottomNavigationBarPage.dart';
-
+import 'package:firebase_in_app_messaging/firebase_in_app_messaging.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
+
 import 'configuration/dataBase.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    print('Received FCM message: ${message.notification?.title}');
+
+    // Handle the received message as desired
+  });
   initializeDateFormatting('tr_TR');
   runApp(MaterialApp(home: MyApp(),
   ));
 }
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message,context) async {
+  print('Arka planda bildirim alındı: ${message}');
+
+}
+
+
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);

@@ -129,6 +129,7 @@ class _myUserProfilPageState extends State<myUserProfilPage> {
     headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
       return <Widget>[
         SliverAppBar(
+          automaticallyImplyLeading: false,
           elevation: 0,
           backgroundColor: Color(0xFFECE9FF),
           actions: [

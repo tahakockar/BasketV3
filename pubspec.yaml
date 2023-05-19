@@ -38,7 +38,8 @@ dependencies:
   cupertino_icons: ^1.0.2
 
   # Google Araçlar
-  firebase_messaging: ^14.3.0
+  firebase_in_app_messaging: ^0.7.3+1
+  firebase_messaging: ^14.6.1
   firebase_core: ^2.8.0
   firebase_analytics: ^10.1.6
 
